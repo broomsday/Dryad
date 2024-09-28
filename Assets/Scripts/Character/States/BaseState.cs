@@ -1,18 +1,16 @@
 ﻿using UnityEngine;
 
 public abstract class BaseState : IState {
-    protected readonly PlayerController player;
+    protected readonly PlayerController playerController;
     protected readonly Animator animator;
     
-    protected static readonly int LocomotionHash = Animator.StringToHash("Locomotion");
-    protected static readonly int JumpHash = Animator.StringToHash("Jump");
-    protected static readonly int DashHash = Animator.StringToHash("Dash");
-    protected static readonly int AttackHash = Animator.StringToHash("Attack");
+    protected static readonly int IdleHash = Animator.StringToHash("Idle");
+    protected static readonly int MoveHash = Animator.StringToHash("Move");
     
     protected const float crossFadeDuration = 0.1f;
     
-    protected BaseState(PlayerController player, Animator animator) {
-        this.player = player;
+    protected BaseState(PlayerController playerController, Animator animator) {
+        this.playerController = playerController;
         this.animator = animator;
     }
     

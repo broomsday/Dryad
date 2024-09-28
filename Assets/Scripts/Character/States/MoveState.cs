@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 
 public class MoveState : BaseState {
-    public MoveState(PlayerController player, Animator animator) : base(player, animator) { }
+    public MoveState(PlayerController playerController, Animator animator) : base(playerController, animator) { }
     
     public override void OnEnter() {
-        //animator.CrossFade(LocomotionHash, crossFadeDuration);
+        Debug.Log("Entering move state");
+        //animator.CrossFade(MoveHash, crossFadeDuration);
         // noop
     }
     
     public override void FixedUpdate() {
-        player.HandleMovement();
+        playerController.HandleMovement();
     }
 }
