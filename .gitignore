@@ -105,11 +105,9 @@ Packages/
 # VSCode settings
 .vscode/
 .backup
+.config/
 Assets/Plugins
 Assets/Resources/Textures
 Assets/Resources/Models
 Assets/Resources/Animations
 Assets/Resources/Images
-Assets/Resources
-.backup
-Assets/Resources
