@@ -9,12 +9,17 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     [SerializeField] Animator animator;
 
+    [Header("Parameters")]
+    [SerializeField] private float moveSpeed; // TODO: come from data
+    [SerializeField] private float turnSpeed; // TODO: come from data
+
+    [Header("Information")]
+    [SerializeField] private IState currentState; // TODO might need a string?
+
     private StateMachine stateMachine;
     private PlayerControls playerControls;
     private CharacterController characterController;
     private Vector2 moveInputVector;
-    private float moveSpeed; // TODO: come from data
-    private float turnSpeed; // TODO: come from data
 
     void Awake()
     {
@@ -71,7 +76,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // noop
+        currentState = stateMachine.GetCurrentState();
     }
 
     void LateUpdate()
@@ -87,7 +92,6 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue value) 
     {
         moveInputVector = value.Get<Vector2>();
-        Debug.Log(moveInputVector);
     }
 
     public void HandleMovement()
@@ -96,5 +100,13 @@ public class PlayerController : MonoBehaviour
 
         Vector3 newDirection = Vector3.RotateTowards(transform.forward, transform.right * moveInputVector.x, turnSpeed * Mathf.Abs(moveInputVector.x) * Time.deltaTime, 0f);
         transform.rotation = Quaternion.LookRotation(newDirection);
+    }
+
+    public void HandleJump()
+    {
+        // noop
+        // TODO: check for grounded
+        // TODO: launch with some velocity
+        // TODO: implement state transition possibilities, e.g. can't go from jump to move
     }
 }

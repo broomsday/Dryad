@@ -78,4 +78,9 @@ public class StateMachine {
             Transitions.Add(new Transition(to, condition));
         }
     }
+
+    public IState GetCurrentState()
+    {
+        return current.State;
+    }
 }
