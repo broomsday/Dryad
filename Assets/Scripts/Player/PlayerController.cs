@@ -11,7 +11,10 @@ public class PlayerController : MonoBehaviour
 
     private StateMachine stateMachine;
     private PlayerControls playerControls;
+    private CharacterController characterController;
     private Vector2 moveInputVector;
+    private float moveSpeed; // TODO: come from data
+    private float turnSpeed; // TODO: come from data
 
     void Awake()
     {
@@ -22,7 +25,9 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        // noop
+        characterController = GetComponent<CharacterController>();
+        moveSpeed = 5.0f;
+        turnSpeed = 2.0f;
     }
 
     private void OnEnable()
@@ -86,6 +91,9 @@ public class PlayerController : MonoBehaviour
 
     public void HandleMovement()
     {
-        Debug.Log("Movement should happen");
+        characterController.Move(transform.forward * moveSpeed * moveInputVector.y * Time.deltaTime);
+
+        Vector3 newDirection = Vector3.RotateTowards(transform.forward, transform.right * moveInputVector.x, turnSpeed * Time.deltaTime, 0f);
+        transform.rotation = Quaternion.LookRotation(newDirection);
     }
 }
