@@ -87,13 +87,14 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue value) 
     {
         moveInputVector = value.Get<Vector2>();
+        Debug.Log(moveInputVector);
     }
 
     public void HandleMovement()
     {
         characterController.Move(transform.forward * moveSpeed * moveInputVector.y * Time.deltaTime);
 
-        Vector3 newDirection = Vector3.RotateTowards(transform.forward, transform.right * moveInputVector.x, turnSpeed * Time.deltaTime, 0f);
+        Vector3 newDirection = Vector3.RotateTowards(transform.forward, transform.right * moveInputVector.x, turnSpeed * Mathf.Abs(moveInputVector.x) * Time.deltaTime, 0f);
         transform.rotation = Quaternion.LookRotation(newDirection);
     }
 }
