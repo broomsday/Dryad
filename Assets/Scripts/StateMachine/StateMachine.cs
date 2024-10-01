@@ -79,8 +79,8 @@ public class StateMachine {
         }
     }
 
-    public IState GetCurrentState()
+    public string GetCurrentStateName()
     {
-        return current.State;
+        return current.State.GetType().Name;
     }
 }

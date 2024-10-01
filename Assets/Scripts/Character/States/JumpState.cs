@@ -9,6 +9,6 @@ public class JumpState : BaseState {
     }
     
     public override void FixedUpdate() {
-        playerController.HandleJump();
+        //playerController.HandleJump();
     }
 }

@@ -9,6 +9,6 @@ public class MoveState : BaseState {
     }
     
     public override void FixedUpdate() {
-        playerController.HandleMovement();
+        //playerController.HandleMovement();
     }
 }
