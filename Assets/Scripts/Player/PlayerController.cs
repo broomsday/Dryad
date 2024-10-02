@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
         playerControls.Player.Move.canceled += context => OnMoveCanceled();
         playerControls.Player.Jump.performed += context => OnJumpPerformed();
         playerControls.Player.Jump.canceled += context => OnJumpCanceled();
+        playerControls.Player.Interact.performed += context => OnInteractPerformed();
     }
 
     private void OnDisable()
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
         playerControls.Player.Move.canceled -= context => OnMoveCanceled();
         playerControls.Player.Jump.performed -= context => OnJumpPerformed();
         playerControls.Player.Jump.canceled -= context => OnJumpCanceled();
+        playerControls.Player.Interact.performed -= context => OnInteractPerformed();
     }
 
     void Update()
@@ -92,6 +94,13 @@ public class PlayerController : MonoBehaviour
     void OnJumpCanceled()
     {
         jumpTimer.Stop();
+    }
+
+    void OnInteractPerformed()
+    {
+        Debug.Log("Trying to interact");
+        // TODO: need to check for all interactable trigger colliders we're inside
+        // TODO: once we have the list, see which one we're MOST pointing at
     }
 
     void SetupStateMachine()
