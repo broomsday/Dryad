@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utilities;
@@ -11,13 +7,11 @@ public class PlayerController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] Animator animator;
-    [SerializeField] CharacterData characterData;
+    [SerializeField] MoveData moveData;
 
 
     [Header("Information")]
     [SerializeField] private string currentStateName;
-    [SerializeField] private Vector3 playerVelocity;
-    [SerializeField] private bool isGrounded;
 
     private StateMachine stateMachine;
     private PlayerControls playerControls;
@@ -37,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        jumpTimer = new CountdownTimer(characterData.maxJumpDuration);
+        jumpTimer = new CountdownTimer(moveData.maxJumpDuration);
     }
 
     private void OnEnable()
@@ -58,6 +52,46 @@ public class PlayerController : MonoBehaviour
         playerControls.Player.Move.canceled -= context => OnMoveCanceled();
         playerControls.Player.Jump.performed -= context => OnJumpPerformed();
         playerControls.Player.Jump.canceled -= context => OnJumpCanceled();
+    }
+
+    void Update()
+    {
+        currentStateName = stateMachine.GetCurrentStateName();
+        jumpTimer.Tick(Time.deltaTime);
+    }
+
+    void LateUpdate()
+    {
+        stateMachine.Update();
+    }
+
+    void FixedUpdate()
+    {
+        stateMachine.FixedUpdate();
+        characterMovement.HandleMovement(moveInputVector);
+        characterMovement.HandleJumping(jumpTimer);
+    }
+
+    void OnMovePerformed(InputAction.CallbackContext context) 
+    {
+        moveInputVector = context.ReadValue<Vector2>();
+    }
+    void OnMoveCanceled()
+    {
+        moveInputVector = Vector2.zero;
+    }
+
+    void OnJumpPerformed()
+    {
+        if (!jumpTimer.IsRunning && characterController.isGrounded)
+        {
+            jumpTimer.Start();
+        }
+    }
+
+    void OnJumpCanceled()
+    {
+        jumpTimer.Stop();
     }
 
     void SetupStateMachine()
@@ -94,74 +128,5 @@ public class PlayerController : MonoBehaviour
     bool IsJumping()
     {
         return !characterController.isGrounded;
-    }
-
-    void Update()
-    {
-        currentStateName = stateMachine.GetCurrentStateName();
-        jumpTimer.Tick(Time.deltaTime);
-    }
-
-    void LateUpdate()
-    {
-        stateMachine.Update();
-    }
-
-    void FixedUpdate()
-    {
-        stateMachine.FixedUpdate();
-        HandleMovement();
-        HandleJumping();
-        isGrounded = characterController.isGrounded;
-    }
-
-    void OnMovePerformed(InputAction.CallbackContext context) 
-    {
-        moveInputVector = context.ReadValue<Vector2>();
-    }
-    void OnMoveCanceled()
-    {
-        moveInputVector = Vector2.zero;
-    }
-
-    void OnJumpPerformed()
-    {
-        if (!jumpTimer.IsRunning && characterController.isGrounded)
-        {
-            jumpTimer.Start();
-        }
-    }
-
-    void OnJumpCanceled()
-    {
-        jumpTimer.Stop();
-    }
-
-    public void HandleMovement()
-    {
-        Vector3 newDirection = Vector3.RotateTowards(transform.forward, transform.right * moveInputVector.x, characterData.turnSpeed * Mathf.Abs(moveInputVector.x) * Time.deltaTime, 0f);
-        transform.rotation = Quaternion.LookRotation(newDirection);
-
-        Vector3 horizontalMoveVector = transform.forward * characterData.moveSpeed * moveInputVector.y;
-        playerVelocity.x = horizontalMoveVector.x;
-        playerVelocity.z = horizontalMoveVector.z;
-
-        characterController.Move(playerVelocity * Time.deltaTime);
-    }
-
-    private void HandleJumping()
-    {
-        if(jumpTimer.IsRunning)
-        {
-            playerVelocity.y = characterData.jumpPower;
-        }
-        else if(characterController.isGrounded)
-        {
-            playerVelocity.y = -characterData.groundingForce;
-        }
-        else if(!characterController.isGrounded) 
-        {
-            playerVelocity.y -= characterData.gravity * Time.deltaTime;
-        }
     }
 }
