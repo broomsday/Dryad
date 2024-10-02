@@ -5,10 +5,5 @@ public class JumpState : BaseState {
     
     public override void OnEnter() {
         //animator.CrossFade(JumpHash, crossFadeDuration);
-        // noop
-    }
-    
-    public override void FixedUpdate() {
-        //playerController.HandleJump();
     }
 }

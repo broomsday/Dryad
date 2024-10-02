@@ -5,10 +5,5 @@ public class MoveState : BaseState {
     
     public override void OnEnter() {
         //animator.CrossFade(MoveHash, crossFadeDuration);
-        // noop
-    }
-    
-    public override void FixedUpdate() {
-        //playerController.HandleMovement();
     }
 }

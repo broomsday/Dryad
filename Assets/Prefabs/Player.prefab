@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
+  characterData: {fileID: 11400000, guid: fd8afddc60a4ead7c9e68ed9f5ee475d, type: 2}
   moveSpeed: 0
   turnSpeed: 0
   jumpPower: 0

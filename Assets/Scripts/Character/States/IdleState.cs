@@ -5,6 +5,5 @@ public class IdleState : BaseState {
     
     public override void OnEnter() {
         //animator.CrossFade(MoveHash, crossFadeDuration);
-        // noop
     }
 }

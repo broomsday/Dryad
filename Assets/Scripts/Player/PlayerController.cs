@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,12 +11,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] Animator animator;
-
-    [Header("Parameters")]
-    [SerializeField] private float moveSpeed; // TODO: come from data
-    [SerializeField] private float turnSpeed; // TODO: come from data
-    [SerializeField] private float jumpPower;
-    [SerializeField] private float jumpDuration;
+    [SerializeField] CharacterData characterData;
 
 
     [Header("Information")]
@@ -26,40 +22,42 @@ public class PlayerController : MonoBehaviour
     private StateMachine stateMachine;
     private PlayerControls playerControls;
     private CharacterController characterController;
+    private CharacterMovement characterMovement;
     private Vector2 moveInputVector;
     CountdownTimer jumpTimer;
-    private float gravity;
-    private float groundingForce;
 
     void Awake()
     {
         playerControls = new PlayerControls();
         characterController = GetComponent<CharacterController>();
+        characterMovement = GetComponent<CharacterMovement>();
 
         SetupStateMachine();
     }
 
     void Start()
     {
-        moveSpeed = 5.0f;
-        turnSpeed = 2.0f;
-        jumpPower = 5.0f;
-        jumpDuration = 0.25f;
-        gravity = 20f;
-        groundingForce = 0.5f;
-        currentStateName = "None";
-
-        jumpTimer = new CountdownTimer(jumpDuration);
+        jumpTimer = new CountdownTimer(characterData.maxJumpDuration);
     }
 
     private void OnEnable()
     {
         playerControls.Player.Enable();
+
+        playerControls.Player.Move.performed += context => OnMovePerformed(context);
+        playerControls.Player.Move.canceled += context => OnMoveCanceled();
+        playerControls.Player.Jump.performed += context => OnJumpPerformed();
+        playerControls.Player.Jump.canceled += context => OnJumpCanceled();
     }
 
     private void OnDisable()
     {
         playerControls.Player.Disable();
+
+        playerControls.Player.Move.performed -= context => OnMovePerformed(context);
+        playerControls.Player.Move.canceled -= context => OnMoveCanceled();
+        playerControls.Player.Jump.performed -= context => OnJumpPerformed();
+        playerControls.Player.Jump.canceled -= context => OnJumpCanceled();
     }
 
     void SetupStateMachine()
@@ -87,11 +85,11 @@ public class PlayerController : MonoBehaviour
 
     bool IsIdle()
     {
-        return (moveInputVector.magnitude == 0f) & (characterController.isGrounded);
+        return moveInputVector.magnitude == 0f && characterController.isGrounded;
     }
     bool IsMoving()
     {
-        return (moveInputVector.x > 0f) | (moveInputVector.y > 0f);
+        return (moveInputVector.x > 0f) || (moveInputVector.y > 0f);
     }
     bool IsJumping()
     {
@@ -112,59 +110,58 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         stateMachine.FixedUpdate();
-
-        if(jumpTimer.IsRunning)
-        {
-            playerVelocity.y = jumpPower;
-        }
-        else if(characterController.isGrounded)
-        {
-            playerVelocity.y = -groundingForce;
-        }
-        else if(!characterController.isGrounded && jumpTimer.IsFinished) 
-        {
-            playerVelocity.y -= gravity * Time.deltaTime;
-        }
-
         HandleMovement();
+        HandleJumping();
         isGrounded = characterController.isGrounded;
     }
 
-    void OnMove(InputValue value) 
+    void OnMovePerformed(InputAction.CallbackContext context) 
     {
-        moveInputVector = value.Get<Vector2>();
+        moveInputVector = context.ReadValue<Vector2>();
+    }
+    void OnMoveCanceled()
+    {
+        moveInputVector = Vector2.zero;
     }
 
-    void OnJump()
+    void OnJumpPerformed()
     {
-        if (!jumpTimer.IsRunning)
+        if (!jumpTimer.IsRunning && characterController.isGrounded)
         {
             jumpTimer.Start();
         }
     }
 
+    void OnJumpCanceled()
+    {
+        jumpTimer.Stop();
+    }
+
     public void HandleMovement()
     {
-        if (characterController.isGrounded) 
-        {
-            Vector3 newDirection = Vector3.RotateTowards(transform.forward, transform.right * moveInputVector.x, turnSpeed * Mathf.Abs(moveInputVector.x) * Time.deltaTime, 0f);
-            transform.rotation = Quaternion.LookRotation(newDirection);
+        Vector3 newDirection = Vector3.RotateTowards(transform.forward, transform.right * moveInputVector.x, characterData.turnSpeed * Mathf.Abs(moveInputVector.x) * Time.deltaTime, 0f);
+        transform.rotation = Quaternion.LookRotation(newDirection);
 
-            Vector3 horizontalMoveVector = transform.forward * moveSpeed * moveInputVector.y;
-            playerVelocity.x = horizontalMoveVector.x;
-            playerVelocity.z = horizontalMoveVector.z;
-        }
+        Vector3 horizontalMoveVector = transform.forward * characterData.moveSpeed * moveInputVector.y;
+        playerVelocity.x = horizontalMoveVector.x;
+        playerVelocity.z = horizontalMoveVector.z;
 
         characterController.Move(playerVelocity * Time.deltaTime);
     }
 
-    public void HandleJump()
+    private void HandleJumping()
     {
-        // noop
-        // TODO: check for grounded
-        // TODO: check jump timer is off
-        // TODO: launch with some velocity
-        // TODO: start jump timer
-        // TODO: implement state transition possibilities, e.g. can't go from jump to move
+        if(jumpTimer.IsRunning)
+        {
+            playerVelocity.y = characterData.jumpPower;
+        }
+        else if(characterController.isGrounded)
+        {
+            playerVelocity.y = -characterData.groundingForce;
+        }
+        else if(!characterController.isGrounded) 
+        {
+            playerVelocity.y -= characterData.gravity * Time.deltaTime;
+        }
     }
 }
