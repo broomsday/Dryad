@@ -15,10 +15,11 @@ GameObject:
   - component: {fileID: 9163240244137971480}
   - component: {fileID: 2779254599775609978}
   - component: {fileID: 8830135209067770358}
+  - component: {fileID: 2078549713534770057}
   - component: {fileID: 7977439591538387858}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,6 +169,18 @@ MonoBehaviour:
   animator: {fileID: 0}
   moveData: {fileID: 11400000, guid: fd8afddc60a4ead7c9e68ed9f5ee475d, type: 2}
   currentStateName: 
+--- !u!114 &2078549713534770057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1054785438388436319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 906b5cd3a146da7939884379ec6b99fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7977439591538387858
 MonoBehaviour:
   m_ObjectHideFlags: 0

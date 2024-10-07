@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private PlayerControls playerControls;
     private CharacterController characterController;
     private CharacterMovement characterMovement;
+    private PlayerInteraction playerInteraction;
     private Vector2 moveInputVector;
     CountdownTimer jumpTimer;
 
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
         playerControls = new PlayerControls();
         characterController = GetComponent<CharacterController>();
         characterMovement = GetComponent<CharacterMovement>();
+        playerInteraction = GetComponent<PlayerInteraction>();
 
         SetupStateMachine();
     }
@@ -98,9 +100,7 @@ public class PlayerController : MonoBehaviour
 
     void OnInteractPerformed()
     {
-        Debug.Log("Trying to interact");
-        // TODO: need to check for all interactable trigger colliders we're inside
-        // TODO: once we have the list, see which one we're MOST pointing at
+        playerInteraction.Interact();
     }
 
     void SetupStateMachine()

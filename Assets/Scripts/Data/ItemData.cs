@@ -6,4 +6,5 @@ using UnityEngine;
 public class ItemData : ScriptableObject
 {
     public GameObject item;
+    public Sprite sprite;
 }

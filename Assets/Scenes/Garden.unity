@@ -240,6 +240,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!65 &257809595 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 7868164733984824941, guid: 0d0df79aae98e7bd1876552d1c6edd57,
+    type: 3}
+  m_PrefabInstance: {fileID: 2585745212392659578}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &348595151
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,6 +451,12 @@ Transform:
   - {fileID: 1701846145}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &715281383 stripped
+CapsuleCollider:
+  m_CorrespondingSourceObject: {fileID: 6859179548228862070, guid: 3ccaccbaecb432edf8ad25d6dcc9ba93,
+    type: 3}
+  m_PrefabInstance: {fileID: 6609143335454022115}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &809673089
 GameObject:
   m_ObjectHideFlags: 0
@@ -1048,6 +1060,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1511541705}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &1537140466 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 8614156078080350052, guid: e94cf41748057762fa2c2c4980a37824,
+    type: 3}
+  m_PrefabInstance: {fileID: 3639624564862990413}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1667626999 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2450461977426249734, guid: d06532c61606051ada78a4e545e908ab,
@@ -1229,15 +1247,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6491454436088311313, guid: 0d0df79aae98e7bd1876552d1c6edd57,
+        type: 3}
+      propertyPath: interactionCollider
+      value: 
+      objectReference: {fileID: 257809595}
     - target: {fileID: 7197756081464129059, guid: 0d0df79aae98e7bd1876552d1c6edd57,
         type: 3}
       propertyPath: m_Name
       value: Counter
       objectReference: {fileID: 0}
+    - target: {fileID: 7868164733984824941, guid: 0d0df79aae98e7bd1876552d1c6edd57,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9155229507253987883, guid: 0d0df79aae98e7bd1876552d1c6edd57,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 9155229507253987883, guid: 0d0df79aae98e7bd1876552d1c6edd57,
         type: 3}
@@ -1420,6 +1448,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Oven
       objectReference: {fileID: 0}
+    - target: {fileID: 6487759305399990066, guid: e94cf41748057762fa2c2c4980a37824,
+        type: 3}
+      propertyPath: m_TagString
+      value: Interactable
+      objectReference: {fileID: 0}
+    - target: {fileID: 6855610501000406541, guid: e94cf41748057762fa2c2c4980a37824,
+        type: 3}
+      propertyPath: interactionCollider
+      value: 
+      objectReference: {fileID: 1537140466}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1571,6 +1609,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7105369874169497840, guid: 3ccaccbaecb432edf8ad25d6dcc9ba93,
+        type: 3}
+      propertyPath: interactionCollider
+      value: 
+      objectReference: {fileID: 715281383}
     - target: {fileID: 7949064754525366520, guid: 3ccaccbaecb432edf8ad25d6dcc9ba93,
         type: 3}
       propertyPath: m_Name
