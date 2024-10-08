@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2779254599775609978}
   - component: {fileID: 8830135209067770358}
   - component: {fileID: 2078549713534770057}
+  - component: {fileID: 3446347906311952546}
   - component: {fileID: 7977439591538387858}
   m_Layer: 0
   m_Name: Player
@@ -181,6 +182,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 906b5cd3a146da7939884379ec6b99fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionObject: {fileID: 0}
+  interactionObjectPrevious: {fileID: 0}
+--- !u!114 &3446347906311952546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1054785438388436319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c51b047f6e65f6f8f812e9ae30e09259, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveData: {fileID: 11400000, guid: fd8afddc60a4ead7c9e68ed9f5ee475d, type: 2}
+  currentStamina: 0
 --- !u!114 &7977439591538387858
 MonoBehaviour:
   m_ObjectHideFlags: 0

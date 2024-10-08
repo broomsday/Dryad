@@ -18,3 +18,6 @@ MonoBehaviour:
   maxJumpDuration: 0.5
   gravity: 20
   groundingForce: 0.5
+  maxStamina: 100
+  regenStamina: 1
+  jumpStaminaCost: 1

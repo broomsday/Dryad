@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private CharacterController characterController;
     private CharacterMovement characterMovement;
     private PlayerInteraction playerInteraction;
+    private PlayerStamina playerStamina;
     private Vector2 moveInputVector;
     CountdownTimer jumpTimer;
 
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         characterMovement = GetComponent<CharacterMovement>();
         playerInteraction = GetComponent<PlayerInteraction>();
+        playerStamina = GetComponent<PlayerStamina>();
 
         SetupStateMachine();
     }
@@ -90,6 +92,7 @@ public class PlayerController : MonoBehaviour
         if (!jumpTimer.IsRunning && characterController.isGrounded)
         {
             jumpTimer.Start();
+            playerStamina.ConsumeStamina(moveData.jumpStaminaCost);
         }
     }
 

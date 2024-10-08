@@ -6,4 +6,5 @@ using UnityEngine;
 public class ActionData : ScriptableObject
 {
     public string actionName;
+    public float staminaCost;
 }
