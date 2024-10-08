@@ -196,8 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51b047f6e65f6f8f812e9ae30e09259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveData: {fileID: 11400000, guid: fd8afddc60a4ead7c9e68ed9f5ee475d, type: 2}
-  currentStamina: 0
+  staminaData: {fileID: 11400000, guid: 2c9867e23a4c69bc1af28919a00220cd, type: 2}
 --- !u!114 &7977439591538387858
 MonoBehaviour:
   m_ObjectHideFlags: 0

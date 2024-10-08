@@ -5,21 +5,15 @@ using UnityEngine;
 
 public class PlayerStamina : MonoBehaviour
 {
-    [SerializeField] private MoveData moveData;
-    [SerializeField] private float currentStamina;
-
-    void Awake()
-    {
-        currentStamina = 0f;
-    }
+    [SerializeField] public StaminaData staminaData;
 
     void Update()
     {
-        currentStamina = Mathf.Clamp(currentStamina + moveData.regenStamina * Time.deltaTime, 0f, moveData.maxStamina);
+        staminaData.currentStamina = Mathf.Clamp(staminaData.currentStamina + staminaData.regenStamina * Time.deltaTime, 0f, staminaData.maxStamina);
     }
 
     public void ConsumeStamina(float staminaConsumed)
     {
-        currentStamina = Mathf.Clamp(currentStamina - staminaConsumed, 0f, moveData.maxStamina);
+        staminaData.currentStamina = Mathf.Clamp(staminaData.currentStamina - staminaConsumed, 0f, staminaData.maxStamina);
     }
 }

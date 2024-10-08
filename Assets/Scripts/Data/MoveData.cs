@@ -7,9 +7,7 @@ public class MoveData : ScriptableObject
     public float turnSpeed;
     public float jumpPower;
     public float maxJumpDuration;
+    public float jumpStaminaCost;
     public float gravity;
     public float groundingForce;
-    public float maxStamina;
-    public float regenStamina;
-    public float jumpStaminaCost;
 }
