@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerInteraction : MonoBehaviour
 {
     private HashSet<GameObject> interactablesInRange = new HashSet<GameObject>();
-    private GameObject interactionObject = null;
-    private GameObject interactionObjectPrevious = null;
+    [SerializeField] private GameObject interactionObject = null;
+    [SerializeField] private GameObject interactionObjectPrevious = null;
 
     void OnTriggerEnter(Collider other)
     {
@@ -50,10 +50,10 @@ public class PlayerInteraction : MonoBehaviour
 
     private void CheckInteractionObjectChanged()
     {
-        if (interactionObjectPrevious != interactionObject)
-            Debug.Log($"{interactionObjectPrevious} {interactionObject}");
+        if (interactionObjectPrevious != interactionObject) {
             AssignPlayerInteractable(interactionObjectPrevious, false);
             AssignPlayerInteractable(interactionObject, true);
+        }
     }
 
     private void AssignPlayerInteractable(GameObject obj, bool state) {

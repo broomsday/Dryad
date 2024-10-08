@@ -29,18 +29,22 @@ public class Interactable : MonoBehaviour
     private void SetInPlayerRange(bool inplayerRange)
     {
         if (inplayerRange) {
-            Debug.Log($"Highlighting {gameObject.name}");
+            SetHighLightLevel(1);
         }
         else {
-            Debug.Log($"Hiding {gameObject.name}");
+            SetHighLightLevel(0);
         }
+    }
+
+    private void SetHighLightLevel(int level)
+    {
+        // TODO: change the materials highlight level
     }
 
     public void SetAsPlayerInteractable(bool isPlayerInteractable)
     {
         if (isPlayerInteractable) {
-            Debug.Log($"{gameObject.name} is to be interacted with");
+            SetHighLightLevel(2);
         }
     }
-
 }
