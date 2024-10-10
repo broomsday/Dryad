@@ -146,6 +146,7 @@ public class PlayerController : MonoBehaviour
         At(restState, jumpState, new FuncPredicate(IsJumping));
 
         Any(idleState, new FuncPredicate(IsIdle));
+        // TODO: Any(interactState, new FuncPredicate(IsInteracting));
 
         // initialize
         stateMachine.SetState(idleState);

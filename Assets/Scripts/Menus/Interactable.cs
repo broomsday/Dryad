@@ -10,6 +10,15 @@ public class Interactable : MonoBehaviour
     [SerializeField] private ActionData actionData;
     [SerializeField] private Collider interactionCollider;
 
+    // TODO: should have different classes:
+    //      Harvestable
+    //      Chatable
+    //      Actionable
+    //      Openable
+    //  All the above can just inherit from Interactable
+    //      Then each one can have it's own type of data it wants
+    //      But things like the collider logic remain in one place
+
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
