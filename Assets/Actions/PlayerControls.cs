@@ -64,7 +64,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Chat"",
+                    ""name"": ""Rest"",
                     ""type"": ""Button"",
                     ""id"": ""6e0f4840-7134-4de3-81be-eb9c4170018c"",
                     ""expectedControlType"": ""Button"",
@@ -308,7 +308,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Chat"",
+                    ""action"": ""Rest"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -922,7 +922,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Build = m_Player.FindAction("Build", throwIfNotFound: true);
-        m_Player_Chat = m_Player.FindAction("Chat", throwIfNotFound: true);
+        m_Player_Rest = m_Player.FindAction("Rest", throwIfNotFound: true);
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
         m_Player_Menu = m_Player.FindAction("Menu", throwIfNotFound: true);
         // UI
@@ -1002,7 +1002,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Build;
-    private readonly InputAction m_Player_Chat;
+    private readonly InputAction m_Player_Rest;
     private readonly InputAction m_Player_Inventory;
     private readonly InputAction m_Player_Menu;
     public struct PlayerActions
@@ -1013,7 +1013,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Build => m_Wrapper.m_Player_Build;
-        public InputAction @Chat => m_Wrapper.m_Player_Chat;
+        public InputAction @Rest => m_Wrapper.m_Player_Rest;
         public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
         public InputAction @Menu => m_Wrapper.m_Player_Menu;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1037,9 +1037,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Build.started += instance.OnBuild;
             @Build.performed += instance.OnBuild;
             @Build.canceled += instance.OnBuild;
-            @Chat.started += instance.OnChat;
-            @Chat.performed += instance.OnChat;
-            @Chat.canceled += instance.OnChat;
+            @Rest.started += instance.OnRest;
+            @Rest.performed += instance.OnRest;
+            @Rest.canceled += instance.OnRest;
             @Inventory.started += instance.OnInventory;
             @Inventory.performed += instance.OnInventory;
             @Inventory.canceled += instance.OnInventory;
@@ -1062,9 +1062,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Build.started -= instance.OnBuild;
             @Build.performed -= instance.OnBuild;
             @Build.canceled -= instance.OnBuild;
-            @Chat.started -= instance.OnChat;
-            @Chat.performed -= instance.OnChat;
-            @Chat.canceled -= instance.OnChat;
+            @Rest.started -= instance.OnRest;
+            @Rest.performed -= instance.OnRest;
+            @Rest.canceled -= instance.OnRest;
             @Inventory.started -= instance.OnInventory;
             @Inventory.performed -= instance.OnInventory;
             @Inventory.canceled -= instance.OnInventory;
@@ -1257,7 +1257,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnBuild(InputAction.CallbackContext context);
-        void OnChat(InputAction.CallbackContext context);
+        void OnRest(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
         void OnMenu(InputAction.CallbackContext context);
     }

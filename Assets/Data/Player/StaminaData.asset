@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: StaminaData
   m_EditorClassIdentifier: Assembly-CSharp::StaminaData
+  currentStamina: 42.7389
   maxStamina: 100
-  regenStamina: 1
-  currentStamina: 100
+  idleRegen: 1
+  restRegen: 10
+  moveCost: 1
+  jumpCost: 5

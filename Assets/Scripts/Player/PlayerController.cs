@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private PlayerStamina playerStamina;
     private Vector2 moveInputVector;
     CountdownTimer jumpTimer;
+    StopwatchTimer restTimer;
 
     void Awake()
     {
@@ -36,6 +37,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         jumpTimer = new CountdownTimer(moveData.maxJumpDuration);
+        restTimer = new StopwatchTimer();
     }
 
     private void OnEnable()
@@ -47,6 +49,8 @@ public class PlayerController : MonoBehaviour
         playerControls.Player.Jump.performed += context => OnJumpPerformed();
         playerControls.Player.Jump.canceled += context => OnJumpCanceled();
         playerControls.Player.Interact.performed += context => OnInteractPerformed();
+        playerControls.Player.Rest.performed += context => OnRestPerformed();
+        playerControls.Player.Rest.canceled += context => OnRestCanceled();
     }
 
     private void OnDisable()
@@ -58,6 +62,8 @@ public class PlayerController : MonoBehaviour
         playerControls.Player.Jump.performed -= context => OnJumpPerformed();
         playerControls.Player.Jump.canceled -= context => OnJumpCanceled();
         playerControls.Player.Interact.performed -= context => OnInteractPerformed();
+        playerControls.Player.Rest.performed -= context => OnRestPerformed();
+        playerControls.Player.Rest.canceled -= context => OnRestCanceled();
     }
 
     void Update()
@@ -92,7 +98,6 @@ public class PlayerController : MonoBehaviour
         if (!jumpTimer.IsRunning && characterController.isGrounded)
         {
             jumpTimer.Start();
-            playerStamina.ConsumeStamina(moveData.jumpStaminaCost);
         }
     }
 
@@ -106,19 +111,39 @@ public class PlayerController : MonoBehaviour
         playerInteraction.Interact();
     }
 
+    void OnRestPerformed()
+    {
+        restTimer.Reset();
+        restTimer.Start();
+    }
+
+    void OnRestCanceled()
+    {
+        restTimer.Stop();
+    }
+
     void SetupStateMachine()
     {
         stateMachine = new StateMachine();
 
         // states
-        var idleState = new IdleState(this, animator);
-        var moveState = new MoveState(this, animator);
-        var jumpState = new JumpState(this, animator);
+        var idleState = new IdleState(this, animator, playerStamina);
+        var moveState = new MoveState(this, animator, playerStamina);
+        var jumpState = new JumpState(this, animator, playerStamina);
+        var restState = new RestState(this, animator, playerStamina);
 
         // transitions
         At(idleState, moveState, new FuncPredicate(IsMoving));
         At(idleState, jumpState, new FuncPredicate(IsJumping));
+        At(idleState, restState, new FuncPredicate(IsResting));
+
         At(moveState, jumpState, new FuncPredicate(IsJumping));
+
+        At(jumpState, moveState, new FuncPredicate(IsMoving));
+
+        At(restState, idleState, new FuncPredicate(IsIdle));
+        At(restState, moveState, new FuncPredicate(IsMoving));
+        At(restState, jumpState, new FuncPredicate(IsJumping));
 
         Any(idleState, new FuncPredicate(IsIdle));
 
@@ -131,14 +156,18 @@ public class PlayerController : MonoBehaviour
 
     bool IsIdle()
     {
-        return moveInputVector.magnitude == 0f && characterController.isGrounded;
+        return moveInputVector.magnitude == 0f && characterController.isGrounded && !restTimer.IsRunning;
     }
     bool IsMoving()
     {
-        return (moveInputVector.x > 0f) || (moveInputVector.y > 0f);
+        return characterController.isGrounded && ((moveInputVector.x > 0f) || (moveInputVector.y > 0f));
     }
     bool IsJumping()
     {
         return !characterController.isGrounded;
+    }
+    bool IsResting()
+    {
+        return restTimer.IsRunning && characterController.isGrounded && !IsMoving();
     }
 }
